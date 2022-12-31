@@ -3,10 +3,14 @@ from config import client
 import pandas as pd
 
 def get_candlestick_data(ticker):
-    klines = client.get_historical_klines(ticker, client.KLINE_INTERVAL_1MINUTE, limit=179 )
+    
+    # Make sure there are 241 items, for correct calculation
+    df = []
+    while len(df) != 241:
+        klines = client.futures_historical_klines(ticker, client.KLINE_INTERVAL_1MINUTE, "5 hours ago UTC")[59:]
 
-    # Create dataframe with all candlestick info
-    df = pd.DataFrame(klines)
+        # Create dataframe with all candlestick info
+        df = pd.DataFrame(klines)
 
     # Remove unnecesary info
     df = df.iloc[:,0:6]
