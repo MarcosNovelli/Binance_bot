@@ -16,14 +16,10 @@ ticker = 'BTCUSDT'
 # Hacer que espere hasta que sea divisble por 3600
 if (dt.datetime.now()).timestamp() % 3600:
 
-    print("Checking for trade opportunity...")
-
-
-
+    print("{} Checking for trade opportunity...".format(str((dt.datetime.now()))[:-7]))
 
     df = get_candlestick_data(ticker)
     print(df)
-
 
     # Check if any conditions are met and trade
     SD = SupplyAndDemand(df)

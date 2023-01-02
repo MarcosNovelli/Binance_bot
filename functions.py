@@ -6,8 +6,9 @@ def get_candlestick_data(ticker):
     
     # Make sure there are 241 items, for correct calculation
     df = []
-    while len(df) != 241:
-        klines = client.futures_historical_klines(ticker, client.KLINE_INTERVAL_1MINUTE, "5 hours ago UTC")[59:]
+    while len(df) != 300:
+        # Fetch until last completed bar
+        klines = client.futures_historical_klines(ticker, client.KLINE_INTERVAL_1MINUTE, "6 hours ago UTC")[59:-1]
 
         # Create dataframe with all candlestick info
         df = pd.DataFrame(klines)
