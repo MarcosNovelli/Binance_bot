@@ -29,11 +29,6 @@ class SupplyAndDemand:
         self.second_high = max(list(df.get('High'))[179:239])
         self.third_high = max(list(df.get('High'))[239:299])
 
-        print(self.first_high)
-        print(self.second_high)
-        print(self.third_high)
-
-    # Ver que capaz tenga que crear las funciones de la estrategia como una clase, para poder acceder a todas las variables mas facil
     def check_DBD(self):
 
         # Detect DBD formation

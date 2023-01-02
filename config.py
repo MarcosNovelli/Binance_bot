@@ -2,7 +2,7 @@ import os
 from binance.client import Client
 from dotenv import load_dotenv
 
-paper_money = 1
+paper_money = 0
 
 load_dotenv()
 API_KEY = os.environ["API_KEY_PAPER"] if paper_money else os.environ["API_KEY"]
