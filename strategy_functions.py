@@ -29,6 +29,7 @@ class SupplyAndDemand:
         self.second_high = max(list(df.get('High'))[179:239])
         self.third_high = max(list(df.get('High'))[239:299])
 
+
     def check_DBD(self):
 
         # Detect DBD formation
