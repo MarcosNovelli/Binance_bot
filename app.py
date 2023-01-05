@@ -35,7 +35,7 @@ while True:
         #Check if any conditions are met and trade
         SD = SupplyAndDemand(df)
 
-        DBD = True #SD.check_DBD()
+        DBD = SD.check_DBD()
         RBD = SD.check_RBD()
         RBR = SD.check_RBR()
         DBR = SD.check_DBR()
@@ -77,7 +77,7 @@ while True:
             print("Stop Reached -- Exiting trade")
             client.futures_cancel_order(symbol=ticker, orderId=take_profit['orderId'])
             in_trade = False
-            
+
         elif take_profit['orderId'] == all_trades[-1]['orderId']:
             print("Target reached -- Exiting trade")
             client.futures_cancel_order(symbol=ticker, orderId=stop_loss['orderId'])
