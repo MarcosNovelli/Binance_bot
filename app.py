@@ -77,7 +77,7 @@ while True:
             print("Stop Reached -- Exiting trade")
             client.futures_cancel_order(symbol=ticker, orderId=take_profit['orderId'])
             in_trade = False
-
+            
         elif take_profit['orderId'] == all_trades[-1]['orderId']:
             print("Target reached -- Exiting trade")
             client.futures_cancel_order(symbol=ticker, orderId=stop_loss['orderId'])
