@@ -1,11 +1,9 @@
 from strategy import SupplyAndDemand
-import binance 
 from config import client
 from time import sleep
 from data_functions import get_candlestick_data
-from order_functions import create_main_order, set_stop_loss, set_target
+from order_functions import create_main_order, set_stop_loss, set_target, send_message_to_ds
 import datetime as dt
-import pandas as pd
 
 ticker = 'BTCUSDT'
 quantity = 0.01
@@ -29,6 +27,7 @@ while True:
     if minutes == 0 and seconds == 0 and not in_trade:
 
         print("{} Checking for trade opportunity...".format(str((dt.datetime.now()))[:-7]))
+        send_message_to_ds("{} Checking for trade opportunity...".format(str((dt.datetime.now()))[:-7]))
 
         df = get_candlestick_data(ticker)
 
@@ -45,6 +44,7 @@ while True:
         # If conditions met, open trade with target and stop loss
         if DBD or RBD:
             print("{} Detected".format(trade_type))
+            send_message_to_ds("{} Detected".format(trade_type))
 
             # Create main order
             create_main_order(ticker, quantity, "SELL")
@@ -57,6 +57,7 @@ while True:
         
         if RBR or DBR:
             print("{} Detected".format(trade_type))
+            send_message_to_ds("{} Detected".format(trade_type))
 
             # Create main order
             create_main_order(ticker, quantity, "BUY")
@@ -75,12 +76,17 @@ while True:
         all_trades = client.futures_account_trades(symbol=ticker)
         if stop_loss['orderId'] == all_trades[-1]['orderId']:
             print("Stop Reached -- Exiting trade")
+            send_message_to_ds("Stop Reached -- Exiting trade")
+
             client.futures_cancel_order(symbol=ticker, orderId=take_profit['orderId'])
             in_trade = False
 
         elif take_profit['orderId'] == all_trades[-1]['orderId']:
             print("Target reached -- Exiting trade")
+            send_message_to_ds("Target reached -- Exiting trade")
+
             client.futures_cancel_order(symbol=ticker, orderId=stop_loss['orderId'])
             in_trade = False
         else:
             print("{} Positions in place".format(str((dt.datetime.now()))[:-7]))
+            send_message_to_ds("{} Positions in place".format(str((dt.datetime.now()))[:-7]))
